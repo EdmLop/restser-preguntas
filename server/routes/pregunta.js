@@ -6,6 +6,7 @@ let app = express();
 app.get('/pregunta', (req, res) => {
     let desde = Number(req.query.desde) || 0;
     let limite = Number(req.query.limite) || 5;
+    res.header("Access-Control-Allow-Origin", "*");
     Pregunta.find().sort('nombre').skip(desde).limit(limite).populate('tema', 'nombre descripcion').exec((err, preguntasBD) => {
         if (err) {
             return res.status(401).json({
@@ -23,6 +24,7 @@ app.get('/pregunta', (req, res) => {
 
 app.get('/pregunta/:id', (req, res) => {
     let id = req.params.id;
+    res.header("Access-Control-Allow-Origin", "*");
     Pregunta.findById(id).populate('tema', 'nombre descripcion').exec((err, preguntaBD) => {
         if (err) {
             return res.status(401).json({
@@ -45,6 +47,7 @@ app.get('/pregunta/:id', (req, res) => {
 
 app.get('/pregunta-tema/:tema', (req, res) => {
     let idTema = req.params.tema;
+    res.header("Access-Control-Allow-Origin", "*");
     Pregunta.find({ tema: idTema }).populate('tema', 'nombre descripcion').exec((err, preguntasBD) => {
         if (err) {
             return res.status(401).json({
@@ -67,6 +70,7 @@ app.get('/pregunta-tema/:tema', (req, res) => {
 
 app.post('/pregunta', (req, res) => {
     let body = req.body;
+    res.header("Access-Control-Allow-Origin", "*");
     let pregunta = new Pregunta({
         pregunta: body.pregunta,
         respuesta1: body.respuesta1,
@@ -93,6 +97,7 @@ app.post('/pregunta', (req, res) => {
 app.put('/pregunta/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
+    res.header("Access-Control-Allow-Origin", "*");
     Pregunta.findById(id, (err, preguntaBD) => {
         if (err) {
             return res.status(401).json({
@@ -129,6 +134,7 @@ app.put('/pregunta/:id', (req, res) => {
 
 app.delete('/pregunta/:id', (req, res) => {
     let id = req.params.id;
+    res.header("Access-Control-Allow-Origin", "*");
     Pregunta.findByIdAndDelete(id, (err, preguntaBD) => {
         if (err) {
             return res.status(400).json({

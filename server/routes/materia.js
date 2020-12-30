@@ -6,6 +6,7 @@ let app = express();
 app.get('/materia', (req, res) => {
     let desde = Number(req.query.desde) || 0;
     let limite = Number(req.query.limite) || 5;
+    res.header("Access-Control-Allow-Origin", "*");
     Materia.find().sort('nombre').skip(desde).limit(limite).exec((err, materiasBD) => {
         if (err) {
             return res.status(400).json({
@@ -23,6 +24,7 @@ app.get('/materia', (req, res) => {
 
 app.get('/materia/:id', (req, res) => {
     let id = req.params.id;
+    res.header("Access-Control-Allow-Origin", "*");
     Materia.findById(id).exec((err, materiaBD) => {
         if (err) {
             return res.status(400).json({
@@ -45,6 +47,7 @@ app.get('/materia/:id', (req, res) => {
 
 app.post('/materia', (req, res) => {
     let body = req.body;
+    res.header("Access-Control-Allow-Origin", "*");
     let materia = new Materia({
         nombre: body.nombre,
         descripcion: body.descripcion
@@ -66,6 +69,7 @@ app.post('/materia', (req, res) => {
 app.put('/materia/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
+    res.header("Access-Control-Allow-Origin", "*");
     Materia.findById(id, (err, materiaBD) => {
         if (err) {
             return res.status(400).json({
@@ -98,6 +102,7 @@ app.put('/materia/:id', (req, res) => {
 
 app.delete('/materia/:id', (req, res) => {
     let id = req.params.id;
+    res.header("Access-Control-Allow-Origin", "*");
     Materia.findByIdAndDelete(id, (err, materiaBD) => {
         if (err) {
             return res.status(400).json({
